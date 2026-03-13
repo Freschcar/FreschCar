@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreschCar – Premium Detailing</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-dim: #8A6B2A;
+    --black: #0A0A0A;
+    --black2: #111111;
+    --black3: #1A1A1A;
+    --white: #F5F0E8;
+    --white-dim: #B0A898;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* GOLD LINE TOP */
+  .gold-line {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 60px;
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .logo span {
+    color: var(--white);
+    font-weight: 300;
+  }
+
+  nav a {
+    color: var(--white-dim);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+
+  nav a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-tag {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 100px);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--white-dim);
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    margin-top: 20px;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 16px 36px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.4s;
+    cursor: pointer;
+  }
+
+  .hero-cta:hover {
+    background: var(--gold);
+    color: var(--black);
+  }
+
+  .hero-cta svg { transition: transform 0.3s; }
+  .hero-cta:hover svg { transform: translateX(4px); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--white-dim);
+  }
+
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 1px;
+    background: var(--white-dim);
+  }
+
+  /* SECTION COMMON */
+  section {
+    padding: 100px 60px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 60px;
+  }
+
+  /* SERVICII */
+  #servicii { background: var(--black2); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--black3);
+    padding: 40px 36px;
+    border: 1px solid rgba(201,168,76,0.08);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+  }
+
+  .service-card:hover { border-color: rgba(201,168,76,0.3); }
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-badge {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 4px 10px;
+    margin-bottom: 20px;
+  }
+
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .service-desc {
+    font-size: 12px;
+    color: var(--white-dim);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
+  .service-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: -1px;
+  }
+
+  .service-price span {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--white-dim);
+    letter-spacing: 1px;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .service-card.featured {
+    background: linear-gradient(135deg, #1A1500, #0A0A0A);
+    border-color: rgba(201,168,76,0.25);
+  }
+
+  .service-card.featured .service-badge {
+    background: var(--gold);
+    color: var(--black);
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--black);
+    text-align: center;
+  }
+
+  .contact-inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .contact-desc {
+    font-size: 14px;
+    color: var(--white-dim);
+    line-height: 1.8;
+    margin-bottom: 60px;
+  }
+
+  .contact-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .btn-telegram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    width: 100%;
+    max-width: 380px;
+    padding: 20px 40px;
+    background: var(--gold);
+    color: var(--black);
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+
+  .btn-telegram:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(201,168,76,0.25);
+  }
+
+  .btn-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--white-dim);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 4px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+
+  .btn-whatsapp:hover {
+    color: var(--white);
+    border-color: var(--white);
+  }
+
+  .phone-display {
+    margin-top: 40px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--white-dim);
+    letter-spacing: 4px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 40px;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 60px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--white-dim);
+    letter-spacing: 1px;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--gold);
+    letter-spacing: 3px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero h1, .hero-tag, .hero-sub, .hero-cta {
+    animation: fadeUp 0.8s ease forwards;
+    opacity: 0;
+  }
+  .hero-tag  { animation-delay: 0.1s; }
+  .hero h1   { animation-delay: 0.3s; }
+  .hero-sub  { animation-delay: 0.5s; }
+  .hero-cta  { animation-delay: 0.7s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    nav { padding: 20px 24px; }
+    nav a { display: none; }
+    .hero, section { padding: 60px 24px; }
+    .hero-scroll { left: 24px; }
+    footer { padding: 30px 24px; flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="gold-line"></div>
+
+<nav>
+  <div class="logo">Fresch<span>Car</span></div>
+  <a href="#servicii">Servicii</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-tag">Premium Auto Detailing</p>
+  <h1>Mașina ta,<br><em>imaculată.</em></h1>
+  <p class="hero-sub">Curățenie de calitate · Rezultate vizibile · Satisfacție garantată</p>
+  <a href="#servicii" class="hero-cta">
+    Vezi serviciile
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- SERVICII -->
+<section id="servicii">
+  <p class="section-label">Ce oferim</p>
+  <h2 class="section-title">Servicii & Prețuri</h2>
+
+  <div class="services-grid">
+
+    <!-- Exterior simplu -->
+    <div class="service-card">
+      <span class="service-badge">Exterior</span>
+      <h3 class="service-name">Spălare Exterioară Simplă</h3>
+      <p class="service-desc">Curățare completă a caroseriei cu apă și șampon profesional.</p>
+      <div class="service-price">20 <span>lei</span></div>
+    </div>
+
+    <!-- Exterior premium -->
+    <div class="service-card">
+      <span class="service-badge">Exterior</span>
+      <h3 class="service-name">Spălare cu Spumă & Ceară Cauciucuri</h3>
+      <p class="service-desc">Spălare activă cu spumă, plus tratarea cauciucurilor cu ceară de protecție.</p>
+      <div class="service-price">50 <span>lei</span></div>
+    </div>
+
+    <!-- Interior simplu -->
+    <div class="service-card">
+      <span class="service-badge">Interior</span>
+      <h3 class="service-name">Curățare Interioară</h3>
+      <p class="service-desc">Aspirare completă a interiorului — covorașe, tapițerie, portbagaj.</p>
+      <div class="service-price">50 <span>lei</span></div>
+    </div>
+
+    <!-- Interior complet -->
+    <div class="service-card">
+      <span class="service-badge">Interior</span>
+      <h3 class="service-name">Curățare Interioară Completă</h3>
+      <p class="service-desc">Aspirare + curățare geamuri + ștergere praguri, praf, bord.</p>
+      <div class="service-price">70 <span>lei</span></div>
+    </div>
+
+    <!-- Pachet Simplu -->
+    <div class="service-card">
+      <span class="service-badge">Pachet</span>
+      <h3 class="service-name">Pachet Simplu</h3>
+      <p class="service-desc">Combinația perfectă pentru o curățenie rapidă și eficientă.</p>
+      <div class="service-price">70 <span>lei</span></div>
+    </div>
+
+    <!-- Pachet Premio -->
+    <div class="service-card featured">
+      <span class="service-badge">⭐ Popular</span>
+      <h3 class="service-name">Pachet Premio</h3>
+      <p class="service-desc">Pachet complet pentru cei care vor mai mult. Interior + exterior la nivel premium.</p>
+      <div class="service-price">100 <span>lei</span></div>
+    </div>
+
+    <!-- All Inclusive -->
+    <div class="service-card featured" style="grid-column: 1 / -1;">
+      <span class="service-badge">👑 All Inclusive</span>
+      <h3 class="service-name">Pachet All Inclusive</h3>
+      <p class="service-desc">
+        Experiența completă FreschCar: curățare cu aburi · curățare scaune prin extracție · <strong style="color: var(--gold)">bonus</strong> curățare cu Aparat O-Zone pentru eliminarea mirosurilor neplăcute.
+      </p>
+      <div class="service-price">150 <span>lei</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <p class="section-label" style="justify-content: center;">Contactează-ne</p>
+    <h2 class="section-title">Rezervă acum</h2>
+    <div class="divider"></div>
+    <p class="contact-desc">
+      Trimite-ne un mesaj și îți confirmăm programarea rapid. Suntem disponibili zilnic pentru tine.
+    </p>
+    <div class="contact-buttons">
+      <a href="https://t.me/+40745422510" class="btn-telegram" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+        Scrie pe Telegram
+      </a>
+      <a href="https://wa.me/40745422510" class="btn-whatsapp" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        sau WhatsApp
+      </a>
+    </div>
+    <div class="phone-display">+40 745 422 510</div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">FreschCar</div>
+  <div>© 2025 FreschCar · Premium Auto Detailing</div>
+  <div>Calitate · Precizie · Pasiune</div>
+</footer>
+
+</body>
+</html>
